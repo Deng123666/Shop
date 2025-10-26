@@ -31,7 +31,7 @@ def create_product_endpoint(product: ProductCreate, db: Session = Depends(get_db
         raise HTTPException(status_code=404, detail="User not found")
     elif not get_category(db, category_id):
         raise HTTPException(status_code=404, detail="Category not found")
-    return create_product(db, product.dict())
+    return create_product(db, product.model_dump())
 
 @product_app.get("/", response_model=list[Product])
 def read_products(page: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
@@ -47,10 +47,14 @@ def read_product(product_id: int, db: Session = Depends(get_db)):
 
 @product_app.put("/{product_id}", response_model=Product)
 def update_product_endpoint(product_id: int, product: ProductCreate, db: Session = Depends(get_db)):
-    db_product = update_product(db, product_id, product.dict())
-    if db_product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return db_product
+    owner_id = product.owner_id
+    category_id = product.category_id
+    if not get_user(db, owner_id):
+        raise HTTPException(status_code=404, detail="User not found")
+    elif not get_category(db, category_id):
+        raise HTTPException(status_code=404, detail="Category not found")
+    return update_product(db, product_id, product.model_dump())
+
 
 @product_app.delete("/{product_id}")
 def delete_product_endpoint(product_id: int, db: Session = Depends(get_db)):
