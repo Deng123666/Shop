@@ -7,6 +7,7 @@ from database import Base
 class User(Base):
     __tablename__ = "users"
 
+    # 必选字段
     id = Column(Integer, primary_key=True, index=True)
     tel = Column(String(20), index=True)
     password = Column(String(100), index=True)
