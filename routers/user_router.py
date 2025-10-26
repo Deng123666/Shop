@@ -24,8 +24,8 @@ async def create_user_endpoint(user: UserCreate, db: Session = Depends(get_db)):
     return create_user(db, user.dict())
 
 @user_app.get("/", response_model=list[UserResponse])
-async def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = get_users(db, skip=skip, limit=limit)
+async def read_users(page: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
+    users = get_users(db, page=page, page_size=page_size)
     return users
 
 @user_app.get("/{id}", response_model=UserResponse)
