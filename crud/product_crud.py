@@ -2,6 +2,7 @@
 from sqlalchemy.orm import Session
 from models.Product import Product
 
+
 def create_product(db: Session, product: dict):
     db_product = Product(**product)
     db.add(db_product)
@@ -9,8 +10,10 @@ def create_product(db: Session, product: dict):
     db.refresh(db_product)
     return db_product
 
+
 def get_product(db: Session, product_id: int):
     return db.query(Product).filter(Product.id == product_id).first()
+
 
 def get_products(db: Session, page: int=1, page_size: int=10):
     # 计算偏移量
@@ -21,8 +24,10 @@ def get_products(db: Session, page: int=1, page_size: int=10):
 
     return products
 
+
 def get_user_products(db: Session, user_id: int):
     return db.query(Product).filter(Product.owner_id == user_id).all()
+
 
 def update_product(db: Session, product_id: int, product: dict):
     db_product = db.query(Product).filter(Product.id == product_id).first()
@@ -32,6 +37,7 @@ def update_product(db: Session, product_id: int, product: dict):
         db.commit()
         db.refresh(db_product)
     return db_product
+
 
 def delete_product(db: Session, product_id: int):
     db_product = db.query(Product).filter(Product.id == product_id).first()

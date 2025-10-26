@@ -18,3 +18,8 @@ class Product(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
     # 建立多对一关系：每个商品属于一个用户
     owner = relationship("User", back_populates="products")
+    
+    # 添加外键关联到分类
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
+    # 建立多对一关系：每个商品属于一个分类
+    category_rel = relationship("Category", back_populates="products")

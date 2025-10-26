@@ -9,6 +9,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from database import engine, Base
 from models.User import User
 from models.Product import Product
+from models.Category import Category
 
 
 def init_database():
