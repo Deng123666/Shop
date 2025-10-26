@@ -20,4 +20,4 @@ class Category(Base):
     description = Column(String(500), nullable=True)
     
     # 建立一对多关系：一个分类包含多个商品
-    products = relationship("Product", back_populates="category_rel")
+    products = relationship("Product", back_populates="category")

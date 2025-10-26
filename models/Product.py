@@ -12,7 +12,7 @@ class Product(Base):
     name = Column(String(100), index=True)
     price = Column(Float)
     description = Column(String(500), nullable=True)
-    category = Column(String(50), nullable=True)
+    # category = Column(String(50), nullable=True)
 
     # 添加外键关联到用户
     owner_id = Column(Integer, ForeignKey("users.id"))
@@ -22,4 +22,4 @@ class Product(Base):
     # 添加外键关联到分类
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     # 建立多对一关系：每个商品属于一个分类
-    category_rel = relationship("Category", back_populates="products")
+    category = relationship("Category", back_populates="products")

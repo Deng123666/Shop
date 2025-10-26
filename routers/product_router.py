@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+from crud.category_crud import get_category
 from crud.user_crud import get_user
 from database import SessionLocal, init_db
 from schemas.product_schemas import ProductCreate, Product
@@ -25,8 +26,11 @@ def get_db():
 @product_app.post("/", response_model=Product)
 def create_product_endpoint(product: ProductCreate, db: Session = Depends(get_db)):
     owner_id = product.owner_id
+    category_id = product.category_id
     if not get_user(db, owner_id):
         raise HTTPException(status_code=404, detail="User not found")
+    elif not get_category(db, category_id):
+        raise HTTPException(status_code=404, detail="Category not found")
     return create_product(db, product.dict())
 
 @product_app.get("/", response_model=list[Product])
