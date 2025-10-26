@@ -24,11 +24,3 @@ def init_database():
 if __name__ == "__main__":
     load_dotenv()  # 加载环境变量
     init_database()
-
-
-master  bugfix/feature/refactor
-添加商品
-feature/add_product
-删除
-feature/del_product
-master

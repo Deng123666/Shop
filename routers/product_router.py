@@ -30,8 +30,8 @@ def create_product_endpoint(product: ProductCreate, db: Session = Depends(get_db
     return create_product(db, product.dict())
 
 @product_app.get("/", response_model=list[Product])
-def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    products = get_products(db, skip=skip, limit=limit)
+def read_products(page: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
+    products = get_products(db, page=page, page_size=page_size)
     return products
 
 @product_app.get("/{product_id}", response_model=Product)

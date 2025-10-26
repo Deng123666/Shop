@@ -8,19 +8,17 @@ class UserCreate(BaseModel):
     password: str
 
 
-class UserUpdate(UserCreate):
+class UserUpdate(BaseModel):
     email: Optional[str] = None
-    nickname: Optional[str] = None
+    name: Optional[str] = None
     address: Optional[str] = None
     avatar_url: Optional[str] = None
 
 
-class UserResponse(BaseModel):
+class UserResponse(UserUpdate):
     id: int
     tel: str
-    email: Optional[str] = None
-    name: Optional[str] = None
-    address: Optional[str] = None
+    password: str
 
     class Config:
         orm_mode = True

@@ -12,8 +12,14 @@ def create_product(db: Session, product: dict):
 def get_product(db: Session, product_id: int):
     return db.query(Product).filter(Product.id == product_id).first()
 
-def get_products(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(Product).offset(skip).limit(limit).all()
+def get_products(db: Session, page: int=1, page_size: int=10):
+    # 计算偏移量
+    skip = (page - 1) * page_size
+
+    # 查询当前页数据
+    products = db.query(Product).offset(skip).limit(page_size).all()
+
+    return products
 
 def get_user_products(db: Session, user_id: int):
     return db.query(Product).filter(Product.owner_id == user_id).all()

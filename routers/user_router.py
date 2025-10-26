@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from database import SessionLocal, init_db
-from schemas.user_schema import UserCreate, UserResponse
-from crud.user_crud import get_user, get_users, create_user
+from schemas.user_schema import UserCreate, UserResponse, UserUpdate
+from crud.user_crud import get_user, get_users, create_user, update_user
 from fastapi import Depends, APIRouter, HTTPException
 
 # 创建路由
@@ -33,4 +33,9 @@ async def read_user(id: int, db: Session = Depends(get_db)):
     db_user = get_user(db, user_id=id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
+@user_app.put("/{id}", response_model=UserResponse)
+async def modify_user(id: int, user: UserUpdate, db: Session = Depends(get_db)):
+    db_user = update_user(db, id, user.model_dump())
     return db_user
